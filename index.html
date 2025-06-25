@@ -1,22 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halloween 2025</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coca-Cola - Share a meal McDonald’s game</title>
+  <meta name="description" content="Coca-Cola - Share a meal McDonald’s game">
+  <meta name="keywords" content="Coca-Cola game">
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <h1>Welcome to Halloween 2025!</h1>
-    <button id="spookyBtn">Click Me!</button>
+  <main id="main"></main>
+  <div id="loader">
+    <div class="loader"></div>
+  </div>
+  <div id="desktop-cover" class="desktop-cover">  
+  </div>
 
-    <p id="message"></p>
-    <script>
-        document.getElementById('spookyBtn').addEventListener('click', function() {
-            document.getElementById('message').textContent = 'Nothing! What did you expect? A ghost? 👻';
-        });
+  <div id="modal-overlay" class="overlay">
+    <div id="modal-dialog" class="dialog">  
+        <div class="dialog-content">
+          <h2 class="d-header f-coke-out">           
+          </h2>
+          <p class="d-text"></p>
+          <button class="d-btn btn btn-primary f-coke-out" id="d-btn">            
+          </button>  
+        </div>
 
-    </script>
+        <div class="icon icon-cap"></div>
+        <div class="icon icon-enjoy"></div>
+    </div>
+  </div>
 
+  <div id="unity-container">
+    <canvas id="unity-canvas" width=960 height=600></canvas>
+  </div>
+  <div id="rotate-info" class="rotate-info info"></div>
+  <script>
+    function loadScript(src, scriptType, integrity, crossorigin) {
+      return new Promise(function (resolve, reject) {
+        let script = document.createElement('script');
+        script.src = src;
+        if (scriptType) {
+          script.type = scriptType;
+        }
+        if (integrity) {
+          script.integrity = integrity;
+        }
+        if (crossorigin) {
+          script.crossOrigin = crossorigin;
+        }
+        script.onload = () => resolve(script);
+        script.onerror = () => reject(new Error(`Script load error for ${src}`));
+        document.head.append(script);
+      });
+    }
+    var randomNum = Math.floor(Math.random() * 10000); // Generuje losową liczbę
+    loadScript("https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js").then(function () {
+      return loadScript("https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js");
+    }).then(function () {
+      return loadScript("https://xtnd.coca-cola.com/v1/xtnd-sdk.js?applyDebug=false&applyStubs=false");
+    }).then(function () {
+      return loadScript('./js/app.js?v=' + randomNum, 'module').then(function () {
+        setupUnity();
+      })
+    }).catch(function (error) {
+      console.error('Błąd ładowania skryptu:', error);
+    });
+  </script>
+  <script id="how-to-play-template" type="text/x-handlebars-template">
+      <div class="bg-container">
+          <div class="image-section">
+          </div>
+      </div>
+      <div class="box-content">
+        <h2 class="line title-1-shadow">
+                {{locale.howToPlay.title}}                 
+        </h2>
+          <div class="apla">             
+              <div class="content">
+                  <!-- <img class="logo-img" src="images/logos.png" alt="McDonalds & Coca-Cola logos" /> -->
+
+ 
+                  <div class="content-item item-1">
+                    <p>{{decodeHTML locale.howToPlay.p1Text}}</p>
+                  </div>
+                  <div class="content-item item-2">
+                    <p>{{decodeHTML locale.howToPlay.p2Text}}</p>
+                  </div>
+                      
+              </div>
+          </div>
+          <div class="footer">
+              <button class="btn btn-primary js-btn-play title-2-shadow">
+                {{locale.howToPlay.btnPlay}}
+                
+              </button>
+          </div>
+      </div>
+  </script>
+  <script id="verify-age-template" type="text/x-handlebars-template">
+    <div class="bg-container">
+        <div class="image-section">
+        </div>       
+    </div>
+    <div class="box-content va-wrap">
+
+        <h2 class="line title-1-shadow">
+                    {{locale.ageVerify.title}}                 
+        </h2>
+        <div class="apla">            
+            <div class="content">                
+                <h3 class="title-2-shadow" id="js-form-name">{{locale.ageVerify.formName}}</h3>
+
+                <div class="form-wrap">
+                 
+                  <div class="date-of-birth">
+                    <select id="year" class="dropdown">
+                      <option value="" disabled selected>YYYY</option>                      
+                    </select>
+                    <select id="month" class="dropdown">
+                      <option value="" disabled selected>MM</option>                     
+                    </select>
+                    <select id="day" class="dropdown">
+                        <option value="" disabled selected>DD</option>                       
+                    </select>
+                    
+                  </div>
+                </div>                    
+                <div class="agree-item">
+                  
+                  <label class="ch-container">
+                    <input type="checkbox" id="agree" name="agree" value="agree">
+                    <span class="checkmark"></span>
+                  </label>
+                  <p>{{decodeHTML locale.ageVerify.agreementText}}</p>
+                </div>     
+                <div class="agree-info">
+                  <p>{{decodeHTML locale.ageVerify.agreementInfo}}</p>
+                </div>     
+            </div>
+        </div>
+        <div class="footer">
+            <button class="btn btn-primary js-btn-next title-2-shadow" disabled>
+              {{locale.ageVerify.btnNext}}
+            </button>
+        </div>
+    </div>
+</script>
+  <script id="loader-game-template" type="text/x-handlebars-template">
+      <div class="bg-container yellow js-bg"></div>
+      <div class="box-content-loader js-htp">
+          <div class="start-game">
+              <img class="snack-1 lozad" src="images/snack-46.png" alt="Snack"/>
+              <img class="snack-1a lozad" src="images/enjoy-big-black.png" alt="Snack"/>
+              <img class="snack-2 lozad" src="images/snack-1.png" alt="Snack"/>
+              <img class="snack-4 lozad" src="images/snack-31.png" alt="Snack"/> 
+              <img class="snack-3 lozad" src="images/snack-4.png" alt="Snack"/> 
+              <img class="logos lozad" src="images/logos.png" alt="McDonalds & Coca-Cola logos"/>
+              <h2 class="f-coke-out">
+                {{locale.loader.title}}
+                <span class="f-coke-reg">{{locale.loader.title}}</span>
+              </h2>
+              <div class="squad" >
+                  <h3 class="share-a-squad">
+                      <div class="line1 f-coke-out">
+                        {{locale.loader.shareSquad1}}
+                        <span class="f-coke-reg">{{locale.loader.shareSquad1}}</span>
+                      </div>
+                      <!-- <div class="line2">{{locale.loader.shareSquad2}}</div> -->
+                      <div class="line3 f-coke-out">
+                        {{locale.loader.shareSquad3}}
+                        <span class="f-coke-reg">{{locale.loader.shareSquad3}}</span>
+                      </div>
+                  </h3>
+                  <img class="squad-img lozad" src="images/squad.png" alt="squad" />
+                  <h3 class="share-a-coke">
+                      <div class="line1 f-coke-out">
+                        {{locale.loader.shareCoke1}}
+                        <span class="f-coke-reg">{{locale.loader.shareCoke1}}</span>
+                      </div>
+                      <div class="line2 f-coke-out">
+                        {{locale.loader.shareCoke2}}
+                        <span class="f-coke-reg">{{locale.loader.shareCoke2}}</span>
+                      </div>
+                  </h3>
+                  <div class="progress">
+                      <div id="js-progress-indicator" class="fill"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </script>
+
+  <script id="rotate-info-template" type="text/x-handlebars-template">
+    <img class="logos lozad" src="images/logos.png" alt="McDonalds & Coca-Cola logos" />
+    <h2 class="f-coke-out">
+      {{decodeHTML locale.screenRotate.title}}
+      <span class="f-coke-reg">{{decodeHTML locale.screenRotate.title}}</span>
+    </h2>
+
+    <img class="phone-rotate lozad" src="images/phone-rotate.png" alt="Rotate your phone" />
+    <h3>{{decodeHTML locale.screenRotate.rotateScreen}}</h3>
+    <img class="sound-on lozad" src="images/sound-on.png" alt="Turn volume on" />
+    <h3>{{decodeHTML locale.screenRotate.turnVolume}}</h3>
+  </script>
+
+  <script id="desktop-cover-template" type="text/x-handlebars-template">
+    
+    <div class="s-right">
+      <div class="top-text">
+        <h2>
+          <div class="line title-1-shadow">
+            {{locale.desktopCover.title}}            
+          </div>        
+        </h2>  
+        <p>{{decodeHTML locale.desktopCover.subTitle}}</p>
+      </div>
+      <div class="bottom-qr">
+        <img src="images/h-QR_Code.png" />       
+      </div>
+   
+    </div>
+  </script>
 </body>
+
 </html>
