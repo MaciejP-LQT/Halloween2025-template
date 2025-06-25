@@ -421,6 +421,7 @@ function verifyAgeModalFill() {
 
 
 
+
 function loadGameFill() {
   const templateSource = document.getElementById('loader-game-template').innerHTML;
   const template = Handlebars.compile(templateSource);
@@ -432,6 +433,8 @@ function loadGameFill() {
   //  eventSend("app_progress", "view", "screen_load", "experience_event", "SAC25_McD_loading");
 
   updateZIndex();
+
+
 }
 
 function isMobileDevice() {
