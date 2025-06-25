@@ -1,38 +1,27 @@
 import { showLoader, hideLoader, transformLocaleData, eventSend, getUserId, logUserIn, navigate } from './lib.js';
 
 window.unityGame  = null; 
-window.setupUnity = function() {
-  // var buildUrl = "Build";
-  // config = {
-  //     loaderUrl: buildUrl + "/onexp-mcd-game.loader.js" + "?" + Math.random(),
-  //     dataUrl: buildUrl + "/onexp-mcd-game.data.unityweb" + "?" + Math.random(),
-  //     frameworkUrl: buildUrl + "/onexp-mcd-game.framework.js.unityweb" + "?" + Math.random(),
-  //     codeUrl: buildUrl + "/onexp-mcd-game.wasm.unityweb" + "?" + Math.random(),
-  //     streamingAssetsUrl: "StreamingAssets",
-  //     companyName: "DefaultCompany",
-  //     productName: "coca-cola-mcd-2025",
-  //     productVersion: "1.0"
-  // };
+// window.setupUnity = function() {
 
-  var buildUrl = "Build";
-  config = {
-      loaderUrl: buildUrl + "/{{{ LOADER_FILENAME }}}" + "?" + Math.random(),
-      dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}" + "?" + Math.random(),
-      frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}" + "?" + Math.random(),
-      codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}" + "?" + Math.random(),
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "{{{ COMPANY_NAME }}}",
-      productName: "{{{ PRODUCT_NAME }}}",
-      productVersion: "{{{ PRODUCT_VERSION }}}"
-  };
+//   var buildUrl = "Build";
+//   config = {
+//       loaderUrl: buildUrl + "/{{{ LOADER_FILENAME }}}" + "?" + Math.random(),
+//       dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}" + "?" + Math.random(),
+//       frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}" + "?" + Math.random(),
+//       codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}" + "?" + Math.random(),
+//       streamingAssetsUrl: "StreamingAssets",
+//       companyName: "{{{ COMPANY_NAME }}}",
+//       productName: "{{{ PRODUCT_NAME }}}",
+//       productVersion: "{{{ PRODUCT_VERSION }}}"
+//   };
 
-#if MEMORY_FILENAME
-  config.memoryUrl = buildUrl + "/{{{ MEMORY_FILENAME }}}";
-#endif
-#if SYMBOLS_FILENAME
-  config.symbolsUrl = buildUrl + "/{{{ SYMBOLS_FILENAME }}}";
-#endif
-}
+// #if MEMORY_FILENAME
+//   config.memoryUrl = buildUrl + "/{{{ MEMORY_FILENAME }}}";
+// #endif
+// #if SYMBOLS_FILENAME
+//   config.symbolsUrl = buildUrl + "/{{{ SYMBOLS_FILENAME }}}";
+// #endif
+// }
 
 let config = {};
 let resUserStatus = {};
