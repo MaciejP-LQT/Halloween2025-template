@@ -21,15 +21,14 @@
   <div id="modal-overlay" class="overlay">
     <div id="modal-dialog" class="dialog">  
         <div class="dialog-content">
-          <h2 class="d-header f-coke-out">           
+          <h2 class="d-header title-2-shadow">           
           </h2>
-          <p class="d-text"></p>
-          <button class="d-btn btn btn-primary f-coke-out" id="d-btn">            
-          </button>  
+          <p class="d-text"></p>          
         </div>
 
-        <div class="icon icon-cap"></div>
-        <div class="icon icon-enjoy"></div>
+        <button class="d-btn btn btn-primary title-2-shadow" id="d-btn">            
+        </button>  
+
     </div>
   </div>
 
@@ -150,61 +149,34 @@
     </div>
 </script>
   <script id="loader-game-template" type="text/x-handlebars-template">
-      <div class="bg-container yellow js-bg"></div>
+      <div class="bg-container js-bg"></div>
       <div class="box-content-loader js-htp">
-          <div class="start-game">
-              <img class="snack-1 lozad" src="images/snack-46.png" alt="Snack"/>
-              <img class="snack-1a lozad" src="images/enjoy-big-black.png" alt="Snack"/>
-              <img class="snack-2 lozad" src="images/snack-1.png" alt="Snack"/>
-              <img class="snack-4 lozad" src="images/snack-31.png" alt="Snack"/> 
-              <img class="snack-3 lozad" src="images/snack-4.png" alt="Snack"/> 
-              <img class="logos lozad" src="images/logos.png" alt="McDonalds & Coca-Cola logos"/>
-              <h2 class="f-coke-out">
-                {{locale.loader.title}}
-                <span class="f-coke-reg">{{locale.loader.title}}</span>
-              </h2>
-              <div class="squad" >
-                  <h3 class="share-a-squad">
-                      <div class="line1 f-coke-out">
-                        {{locale.loader.shareSquad1}}
-                        <span class="f-coke-reg">{{locale.loader.shareSquad1}}</span>
-                      </div>
-                      <!-- <div class="line2">{{locale.loader.shareSquad2}}</div> -->
-                      <div class="line3 f-coke-out">
-                        {{locale.loader.shareSquad3}}
-                        <span class="f-coke-reg">{{locale.loader.shareSquad3}}</span>
-                      </div>
-                  </h3>
-                  <img class="squad-img lozad" src="images/squad.png" alt="squad" />
-                  <h3 class="share-a-coke">
-                      <div class="line1 f-coke-out">
-                        {{locale.loader.shareCoke1}}
-                        <span class="f-coke-reg">{{locale.loader.shareCoke1}}</span>
-                      </div>
-                      <div class="line2 f-coke-out">
-                        {{locale.loader.shareCoke2}}
-                        <span class="f-coke-reg">{{locale.loader.shareCoke2}}</span>
-                      </div>
-                  </h3>
-                  <div class="progress">
-                      <div id="js-progress-indicator" class="fill"></div>
-                  </div>
-              </div>
+        
+          <div class="start-game">  
+            <div class="bg-loading"></div>         
+            <div class="loader-content">
+                <img class="loader-img" src="images/h-cog.png" alt="Coca-Cola loader" />
+                <h2 class="title-1-shadow">
+                    {{locale.loader.title}}
+                </h2>
+                <p id="loader-val">0%</p>
+            </div>
+              
           </div>
       </div>
   </script>
 
   <script id="rotate-info-template" type="text/x-handlebars-template">
-    <img class="logos lozad" src="images/logos.png" alt="McDonalds & Coca-Cola logos" />
-    <h2 class="f-coke-out">
+    <!-- <img class="logos lozad" src="images/logos.png" alt="McDonalds & Coca-Cola logos" /> -->
+    <h2 class="line title-1-shadow">
       {{decodeHTML locale.screenRotate.title}}
-      <span class="f-coke-reg">{{decodeHTML locale.screenRotate.title}}</span>
+
     </h2>
 
     <img class="phone-rotate lozad" src="images/phone-rotate.png" alt="Rotate your phone" />
-    <h3>{{decodeHTML locale.screenRotate.rotateScreen}}</h3>
+    <h3 class="title-2-shadow">{{decodeHTML locale.screenRotate.rotateScreen}}</h3>
     <img class="sound-on lozad" src="images/sound-on.png" alt="Turn volume on" />
-    <h3>{{decodeHTML locale.screenRotate.turnVolume}}</h3>
+    <h3 class="title-2-shadow">{{decodeHTML locale.screenRotate.turnVolume}}</h3>
   </script>
 
   <script id="desktop-cover-template" type="text/x-handlebars-template">

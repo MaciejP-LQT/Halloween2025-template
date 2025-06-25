@@ -384,9 +384,9 @@ function verifyAgeModalFill() {
   const header = document.querySelector('.d-header');
   const descr = document.querySelector('.d-text');
   const btn = document.querySelector('#d-btn');
-  header.innerHTML = ''+locale.ageVerify.dialogTitle+'<span class="f-coke-reg">'+locale.ageVerify.dialogTitle+'</span>';
+  header.innerHTML = ''+locale.ageVerify.dialogTitle;
   descr.innerHTML = ''+locale.ageVerify.dialogText;
-  btn.innerHTML = ''+locale.ageVerify.dialogBtn+'<span class="f-coke-reg">'+locale.ageVerify.dialogBtn+'</span>';
+  btn.innerHTML = ''+locale.ageVerify.dialogBtn;
  
   modalOverlay.style.display = 'block';
   setTimeout(() => {
@@ -495,6 +495,10 @@ function initializeUnity(config) {
   var progressIndicator = document.querySelector("#js-progress-indicator");
   config.devicePixelRatio = 2;
 
+  var bgLoading = document.querySelector(".bg-loading"); 
+  var loaderVal = document.querySelector("#loader-val");
+  const viewportHeight = window.innerHeight;
+
   var script = document.createElement("script");
   script.src = config.loaderUrl;
 
@@ -504,11 +508,21 @@ function initializeUnity(config) {
           // if (progress >= 0.9) {
           //     progress = 1.0;
           // }
-          if (progressIndicator) {
-              progressIndicator.style.width = parseInt(100 * progress) + "%";
-          } else {
-              console.warn("Progress Indicator jest null");
-          }
+
+      if (bgLoading && loaderVal) {
+
+          const percentage = Math.round(progress * 100);
+          loaderVal.textContent = percentage + '%';
+
+          const bottomPosition = progress * viewportHeight;
+          bgLoading.style.bottom = bottomPosition + 'px';
+
+      } else {
+          console.warn("Brakuje elementu .bg-loading lub #loader-val");
+      }
+          
+
+
       }).then((unityInstance) => {
           window.unityGame = unityInstance;
           bg.style.display = "none";
