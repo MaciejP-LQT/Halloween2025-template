@@ -1,32 +1,27 @@
 import { showLoader, hideLoader, transformLocaleData, eventSend, getUserId, logUserIn, navigate } from './lib.js';
 
 window.unityGame  = null; 
-window.setupUnity = function() {
-  // var buildUrl = "Build";
-  // config = {
-  //     loaderUrl: buildUrl + "/onexp-mcd-game.loader.js" + "?" + Math.random(),
-  //     dataUrl: buildUrl + "/onexp-mcd-game.data.unityweb" + "?" + Math.random(),
-  //     frameworkUrl: buildUrl + "/onexp-mcd-game.framework.js.unityweb" + "?" + Math.random(),
-  //     codeUrl: buildUrl + "/onexp-mcd-game.wasm.unityweb" + "?" + Math.random(),
-  //     streamingAssetsUrl: "StreamingAssets",
-  //     companyName: "DefaultCompany",
-  //     productName: "coca-cola-mcd-2025",
-  //     productVersion: "1.0"
-  // };
+// window.setupUnity = function() {
 
-  var buildUrl = "Build";
-  config = {
-      loaderUrl: buildUrl + "/onexp-fanta-halloween.loader.js" + "?" + Math.random(),
-      dataUrl: buildUrl + "/2670edff644fa6371e19f79e322abf69.data.unityweb" + "?" + Math.random(),
-      frameworkUrl: buildUrl + "/867af91f09aa83c2d938447809001977.js.unityweb" + "?" + Math.random(),
-      codeUrl: buildUrl + "/5b3cec553a795aa522669eee0c51a8fd.wasm.unityweb" + "?" + Math.random(),
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "DefaultCompany",
-      productName: "coca-cola-mcd-2025",
-      productVersion: "1.0"
-  };
+//   var buildUrl = "Build";
+//   config = {
+//       loaderUrl: buildUrl + "/{{{ LOADER_FILENAME }}}" + "?" + Math.random(),
+//       dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}" + "?" + Math.random(),
+//       frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}" + "?" + Math.random(),
+//       codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}" + "?" + Math.random(),
+//       streamingAssetsUrl: "StreamingAssets",
+//       companyName: "{{{ COMPANY_NAME }}}",
+//       productName: "{{{ PRODUCT_NAME }}}",
+//       productVersion: "{{{ PRODUCT_VERSION }}}"
+//   };
 
-}
+// #if MEMORY_FILENAME
+//   config.memoryUrl = buildUrl + "/{{{ MEMORY_FILENAME }}}";
+// #endif
+// #if SYMBOLS_FILENAME
+//   config.symbolsUrl = buildUrl + "/{{{ SYMBOLS_FILENAME }}}";
+// #endif
+// }
 
 let config = {};
 let resUserStatus = {};
@@ -396,9 +391,9 @@ function verifyAgeModalFill() {
   const header = document.querySelector('.d-header');
   const descr = document.querySelector('.d-text');
   const btn = document.querySelector('#d-btn');
-  header.innerHTML = ''+locale.ageVerify.dialogTitle+'<span class="f-coke-reg">'+locale.ageVerify.dialogTitle+'</span>';
+  header.innerHTML = ''+locale.ageVerify.dialogTitle;
   descr.innerHTML = ''+locale.ageVerify.dialogText;
-  btn.innerHTML = ''+locale.ageVerify.dialogBtn+'<span class="f-coke-reg">'+locale.ageVerify.dialogBtn+'</span>';
+  btn.innerHTML = ''+locale.ageVerify.dialogBtn;
  
   modalOverlay.style.display = 'block';
   setTimeout(() => {
@@ -426,6 +421,7 @@ function verifyAgeModalFill() {
 
 
 
+
 function loadGameFill() {
   const templateSource = document.getElementById('loader-game-template').innerHTML;
   const template = Handlebars.compile(templateSource);
@@ -437,6 +433,15 @@ function loadGameFill() {
   //  eventSend("app_progress", "view", "screen_load", "experience_event", "SAC25_McD_loading");
 
   updateZIndex();
+
+  const loaderContainer = document.querySelector('.loader-img-wrap');
+  setTimeout(() => {
+        if (loaderContainer) {
+            loaderContainer.classList.add('show-second-image');
+        }
+    }, 100);
+
+
 }
 
 function isMobileDevice() {
@@ -507,6 +512,10 @@ function initializeUnity(config) {
   var progressIndicator = document.querySelector("#js-progress-indicator");
   config.devicePixelRatio = 2;
 
+  var bgLoading = document.querySelector(".bg-loading"); 
+  var loaderVal = document.querySelector("#loader-val");
+  const viewportHeight = window.innerHeight;
+
   var script = document.createElement("script");
   script.src = config.loaderUrl;
 
@@ -516,11 +525,21 @@ function initializeUnity(config) {
           // if (progress >= 0.9) {
           //     progress = 1.0;
           // }
-          if (progressIndicator) {
-              progressIndicator.style.width = parseInt(100 * progress) + "%";
-          } else {
-              console.warn("Progress Indicator jest null");
-          }
+
+      if (bgLoading && loaderVal) {
+
+          const percentage = Math.round(progress * 100);
+          loaderVal.textContent = percentage + '%';
+
+          const bottomPosition = progress * viewportHeight;
+          bgLoading.style.bottom = bottomPosition + 'px';
+
+      } else {
+          console.warn("Brakuje elementu .bg-loading lub #loader-val");
+      }
+          
+
+
       }).then((unityInstance) => {
           window.unityGame = unityInstance;
           bg.style.display = "none";
