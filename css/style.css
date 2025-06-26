@@ -377,6 +377,18 @@ main.load-game {
     .box-content-loader .start-game{
         display: flex;
     }
+
+
+    .box-content .apla { 
+        background-image: url(../images/h-frame_01a.png);
+        max-width: 345px;
+        min-height: auto;
+        min-height: unset;
+        width: 345px;
+        height: 260px;
+    }
+
+
   }
   
   @media (orientation: portrait) {
@@ -546,6 +558,22 @@ h3.small {
     line-height: 11px;
 }
  
+
+
+@media (orientation: landscape) {
+   
+
+
+
+    .va-wrap .date-of-birth {        
+        flex-direction: row;
+    }
+
+    .va-wrap .date-of-birth .dropdown {
+        width: 76px;
+    }
+
+  }
 
 
 .overlay {

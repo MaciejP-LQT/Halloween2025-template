@@ -522,9 +522,10 @@ function initializeUnity(config) {
   script.onload = () => {
 
       createUnityInstance(canvas, config, (progress) => {
-          // if (progress >= 0.9) {
-          //     progress = 1.0;
-          // }
+          
+          if (parseFloat(progress) >= 0.9) {
+              progress = 1.0;
+          }
 
       if (bgLoading && loaderVal) {
 
