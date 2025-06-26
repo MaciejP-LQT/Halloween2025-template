@@ -16,22 +16,16 @@ window.setupUnity = function() {
 
   var buildUrl = "Build";
   config = {
-      loaderUrl: buildUrl + "/{{{ LOADER_FILENAME }}}" + "?" + Math.random(),
-      dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}" + "?" + Math.random(),
-      frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}" + "?" + Math.random(),
-      codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}" + "?" + Math.random(),
+      loaderUrl: buildUrl + "/onexp-fanta-halloween.loader.js" + "?" + Math.random(),
+      dataUrl: buildUrl + "/2670edff644fa6371e19f79e322abf69.data.unityweb" + "?" + Math.random(),
+      frameworkUrl: buildUrl + "/867af91f09aa83c2d938447809001977.js.unityweb" + "?" + Math.random(),
+      codeUrl: buildUrl + "/5b3cec553a795aa522669eee0c51a8fd.wasm.unityweb" + "?" + Math.random(),
       streamingAssetsUrl: "StreamingAssets",
-      companyName: "{{{ COMPANY_NAME }}}",
-      productName: "{{{ PRODUCT_NAME }}}",
-      productVersion: "{{{ PRODUCT_VERSION }}}"
+      companyName: "DefaultCompany",
+      productName: "coca-cola-mcd-2025",
+      productVersion: "1.0"
   };
 
-#if MEMORY_FILENAME
-  config.memoryUrl = buildUrl + "/{{{ MEMORY_FILENAME }}}";
-#endif
-#if SYMBOLS_FILENAME
-  config.symbolsUrl = buildUrl + "/{{{ SYMBOLS_FILENAME }}}";
-#endif
 }
 
 let config = {};

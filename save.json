@@ -1,0 +1,24 @@
+{
+  "isLimitReached": false,
+  "limitReachedDate": "2000-01-01",
+  "dailyPlayCount": 0,
+  "gameState": {
+    "currentGameLevel": 1,
+    "isLevelCompleted": false,
+    "friendsList": [],
+    "collectedStickers": [],
+    "checklist":{
+      "gatherTheSquad": false,
+      "cokesCount":0,
+      "mcDonalds":{
+        "nuggetsCount":0,
+        "friesCount":0
+      },
+      "meetAtThePark":false,
+      "collectAllStickers":false
+    },
+    "currentScore": 0,
+    "instructionShow": false
+  },
+  "version":"0.01"
+}
