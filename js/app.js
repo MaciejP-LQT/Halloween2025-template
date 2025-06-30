@@ -434,12 +434,12 @@ function loadGameFill() {
 
   updateZIndex();
 
-  const loaderContainer = document.querySelector('.loader-img-wrap');
-  setTimeout(() => {
-        if (loaderContainer) {
-            loaderContainer.classList.add('show-second-image');
-        }
-    }, 100);
+  // const loaderContainer = document.querySelector('.loader-img-wrap');
+  // setTimeout(() => {
+  //       if (loaderContainer) {
+  //           loaderContainer.classList.add('show-second-image');
+  //       }
+  //   }, 100);
 
 
 }
