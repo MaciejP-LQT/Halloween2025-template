@@ -2,6 +2,7 @@
   "isLimitReached": false,
   "limitReachedDate": "2000-01-01",
   "dailyPlayCount": 0,
+  "characterIndex": 0,
   "gameState": {
     "currentGameLevel": 1,
     "isLevelCompleted": false,
