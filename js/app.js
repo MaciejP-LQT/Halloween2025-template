@@ -161,7 +161,7 @@ async function loadLocale() {
     });
     locale = transformLocaleData(response);
     loginFormType = locale.xtnd_nt_config.loginFormType;
-    //loginFormType = 'start';
+    loginFormType = 'start';
     ageLimit = locale.xtnd_nt_config.ageLimit;
     btnLogin = locale.howToPlay.btnLogin;
     //console.dir(locale);
@@ -177,7 +177,7 @@ async function loadLocale() {
         });
         locale = transformLocaleData(fallbackResponse);
         loginFormType = locale.xtnd_nt_config.loginFormType;
-        //loginFormType = 'start';
+        loginFormType = 'start';
         btnLogin = locale.xtnd_nt_config.btnLogin;
       } catch (fallbackError) {
         console.dir(fallbackError);
@@ -216,6 +216,58 @@ function desktopCoverFill() {
     dist.classList.add('active');
   }
 }
+
+function readyPageFill() { 
+
+  const templateSource = document.getElementById('ready-page-template').innerHTML;
+  const template = Handlebars.compile(templateSource);
+  const compiledHtml = template({ locale: locale });
+  document.getElementById('main').innerHTML = compiledHtml;
+  const buttonPlay = document.querySelector('.js-btn-play');
+
+  if (buttonPlay) {
+    buttonPlay.addEventListener('click', async function () {      
+      console.log('ready-page-template Play');     
+    });
+  }
+
+}
+
+
+function loginIfNeeded() {
+
+  if (resUserStatus.status !== "success" && loginFormType === 'start') {
+    needLogin = true;    
+    console.log('no logged !');  
+  }
+
+  setTimeout(async () => {
+
+    if (needLogin) {  
+          // eventSend("user_action", "click", "login_button");   
+        console.log('needLogin: '+needLogin);
+
+        resUserLogIn = await logUserIn();
+        if (resUserLogIn.status === 'success') {
+          localStorage.setItem('_McD_uuid', resUserLogIn.data.uuid);
+          needLogin = false;
+        }
+        return; 
+    }
+
+    // eventSend("user_action", "click", "play_button");
+    document.getElementById("rotate-info").classList.add('active');
+    showLoader();
+    console.log('loginIfNeeded Play');
+    rotateInfoFill();
+    loadGameFill();
+    initializeUnity(config);
+    hideLoader();
+
+  }, 10);  
+
+}
+
 
 function howToPlayFill() {
   const templateSource = document.getElementById('how-to-play-template').innerHTML;
@@ -296,7 +348,8 @@ function verifyAgeFill() {
         else {
           localStorage.setItem('_McD_uuid', "--no logged");
         }      
-        howToPlayFill();
+        //howToPlayFill();
+        loginIfNeeded();
 
       } 
       else {  
@@ -484,12 +537,14 @@ async function main() {
   if (resUserStatus.status === 'success') { 
 
     localStorage.setItem('_McD_uuid', resUserStatus.data.uuid);   
-    howToPlayFill();
+    //howToPlayFill();
+    loginIfNeeded();
   }
   else {
 
     if (storeUid !== null) {
-      howToPlayFill();
+      //howToPlayFill();
+      loginIfNeeded();
     }
     else {
       verifyAgeFill();
@@ -542,6 +597,7 @@ function initializeUnity(config) {
 
 
       }).then((unityInstance) => {
+          readyPageFill();
           window.unityGame = unityInstance;
           bg.style.display = "none";
           htp.style.display = "none";
