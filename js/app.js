@@ -161,7 +161,7 @@ async function loadLocale() {
     });
     locale = transformLocaleData(response);
     loginFormType = locale.xtnd_nt_config.loginFormType;
-    loginFormType = 'start';
+    // loginFormType = 'start';
     ageLimit = locale.xtnd_nt_config.ageLimit;
     btnLogin = locale.howToPlay.btnLogin;
     //console.dir(locale);
@@ -177,7 +177,7 @@ async function loadLocale() {
         });
         locale = transformLocaleData(fallbackResponse);
         loginFormType = locale.xtnd_nt_config.loginFormType;
-        loginFormType = 'start';
+        // loginFormType = 'start';
         btnLogin = locale.xtnd_nt_config.btnLogin;
       } catch (fallbackError) {
         console.dir(fallbackError);
