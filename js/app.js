@@ -222,12 +222,15 @@ function readyPageFill() {
   const templateSource = document.getElementById('ready-page-template').innerHTML;
   const template = Handlebars.compile(templateSource);
   const compiledHtml = template({ locale: locale });
-  document.getElementById('main').innerHTML = compiledHtml;
+  const mainContainer = document.getElementById('main');
+  mainContainer.classList.add('ready-page');
+  mainContainer.innerHTML = compiledHtml;
   const buttonPlay = document.querySelector('.js-btn-play');
 
   if (buttonPlay) {
     buttonPlay.addEventListener('click', async function () {      
-      console.log('ready-page-template Play');     
+      console.log('ready-page-template Play');
+      mainContainer.style.zIndex = '1';     
     });
   }
 
@@ -249,7 +252,7 @@ function loginIfNeeded() {
 
         resUserLogIn = await logUserIn();
         if (resUserLogIn.status === 'success') {
-          localStorage.setItem('_McD_uuid', resUserLogIn.data.uuid);
+          localStorage.setItem('_Hlw25_uuid', resUserLogIn.data.uuid);
           needLogin = false;
         }
         return; 
@@ -295,7 +298,7 @@ function howToPlayFill() {
         resUserLogIn = await logUserIn();
 
         if (resUserLogIn.status === 'success') {
-          localStorage.setItem('_McD_uuid', resUserLogIn.data.uuid);
+          localStorage.setItem('_Hlw25_uuid', resUserLogIn.data.uuid);
           needLogin = false;
         }
         return; 
@@ -343,10 +346,10 @@ function verifyAgeFill() {
       if (btnTarget === 'next') {
 
         if(resUserStatus.status == 'success') {
-          localStorage.setItem('_McD_uuid', resUserStatus.data.uuid);
+          localStorage.setItem('_Hlw25_uuid', resUserStatus.data.uuid);
         }
         else {
-          localStorage.setItem('_McD_uuid', "--no logged");
+          localStorage.setItem('_Hlw25_uuid', "--no logged");
         }      
         //howToPlayFill();
         loginIfNeeded();
@@ -527,7 +530,7 @@ async function main() {
   showLoader();
   await loadLocale();
   resUserStatus = await getUserId();
-  const storeUid = localStorage.getItem('_McD_uuid');
+  const storeUid = localStorage.getItem('_Hlw25_uuid');
   console.log("resUserStatus.status: "+resUserStatus.status);
   //console.log("storeUid: "+storeUid);
 
@@ -536,7 +539,7 @@ async function main() {
 
   if (resUserStatus.status === 'success') { 
 
-    localStorage.setItem('_McD_uuid', resUserStatus.data.uuid);   
+    localStorage.setItem('_Hlw25_uuid', resUserStatus.data.uuid);   
     //howToPlayFill();
     loginIfNeeded();
   }
