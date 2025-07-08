@@ -4,22 +4,11 @@
   "dailyPlayCount": 0,
   "characterIndex": 0,
   "gameState": {
-    "currentGameLevel": 1,
-    "isLevelCompleted": false,
-    "friendsList": [],
-    "collectedStickers": [],
-    "checklist":{
-      "gatherTheSquad": false,
-      "cokesCount":0,
-      "mcDonalds":{
-        "nuggetsCount":0,
-        "friesCount":0
-      },
-      "meetAtThePark":false,
-      "collectAllStickers":false
-    },
+    "currentLevelIdx": 0,
     "currentScore": 0,
-    "instructionShow": false
+    "currentTime": 0,
+    "isLevelCompleted": false,
+    "allLevels": [1, 1, 1, 1, 1]
   },
-  "version":"0.01"
+  "version":"0.03"
 }
