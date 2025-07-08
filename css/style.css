@@ -102,8 +102,8 @@ main.load-game {
 
 main.ready-page,
 main.load-game.ready-page {
-    width: 100%;
-    max-width: 512px;
+    width: 100% !important;
+    max-width: 512px !important;
     z-index: 6;
 }
 
