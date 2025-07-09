@@ -231,6 +231,7 @@ function readyPageFill() {
     buttonPlay.addEventListener('click', async function () {      
       console.log('ready-page-template Play');
       mainContainer.style.zIndex = '1';     
+      mainContainer.style.display = 'none';
     });
   }
 
