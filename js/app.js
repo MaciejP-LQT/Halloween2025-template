@@ -232,6 +232,7 @@ function readyPageFill() {
       console.log('ready-page-template Play');
       mainContainer.style.zIndex = '1';     
       mainContainer.style.display = 'none';
+      window.unityGame.SendMessage('MainScript', 'OnAudioContextResumed', 'Audio context has been resumed');
     });
   }
 
