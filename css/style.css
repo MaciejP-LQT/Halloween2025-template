@@ -382,11 +382,11 @@ main.load-game.ready-page {
 
     .box-content .apla { 
         background-image: url(../images/h-frame_01a.png);
-        max-width: 345px;
+        max-width: 320px;
         min-height: auto;
         min-height: unset;
-        width: 345px;
-        height: 260px;
+        width: 320px;
+        height: 230px;
     }
 
 
