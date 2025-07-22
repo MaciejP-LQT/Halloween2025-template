@@ -46,6 +46,7 @@ let gYear = 2025;
 // let gMonth = 1;
 // let gDay = 1;
 let ageLimit = 13;
+let showAgeLimitForm = true; 
 let showModal = false;
 
 function generateYearArray(startYear, endYear) {
@@ -163,6 +164,7 @@ async function loadLocale() {
     loginFormType = locale.xtnd_nt_config.loginFormType;
     // loginFormType = 'start';
     ageLimit = locale.xtnd_nt_config.ageLimit;
+    showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
     btnLogin = locale.howToPlay.btnLogin;
     //console.dir(locale);
   } catch (error) {
@@ -547,7 +549,7 @@ async function main() {
   }
   else {
 
-    if (storeUid !== null) {
+    if (storeUid !== null || showAgeLimitForm == false) {
       //howToPlayFill();
       loginIfNeeded();
     }
