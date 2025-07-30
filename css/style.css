@@ -576,6 +576,9 @@ h3.small {
 @media (orientation: landscape) {
    
 
+    .va-wrap .agree-info  {
+        bottom: 6px;
+    }
 
 
     .va-wrap .date-of-birth {        
