@@ -165,7 +165,7 @@ async function loadLocale() {
     // loginFormType = 'start';
     ageLimit = locale.xtnd_nt_config.ageLimit;
     showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
-    btnLogin = locale.howToPlay.btnLogin;
+    //btnLogin = locale.howToPlay.btnLogin;
     //console.dir(locale);
   } catch (error) {
     console.dir(error);
@@ -180,7 +180,7 @@ async function loadLocale() {
         locale = transformLocaleData(fallbackResponse);
         loginFormType = locale.xtnd_nt_config.loginFormType;
         // loginFormType = 'start';
-        btnLogin = locale.xtnd_nt_config.btnLogin;
+        //btnLogin = locale.xtnd_nt_config.btnLogin;
       } catch (fallbackError) {
         console.dir(fallbackError);
         console.error(fallbackError);        
