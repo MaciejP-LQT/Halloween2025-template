@@ -45,16 +45,15 @@ function transformLocaleData(original) {
 }
 
 
-async function eventSend(eventCategory, eventAction, eventLabel, eventName = "experience_event", screenName = "SAC25_McD_landing") {
+async function eventSend(eventCategory, eventAction, eventLabel, screenName) {
 
   console.log("event send:"+eventLabel+", scr:"+screenName);
 
-  const response = await window.xtnd.analytics.send({
-    event: eventName,
-    screen_name: screenName,
+  const response = await window.xtnd.analytics.send({    
     event_category: eventCategory,
     event_action: eventAction,
     event_label: eventLabel,
+    screen_name: screenName
   });
 
   console.log(JSON.stringify(response, null, 2));

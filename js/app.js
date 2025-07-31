@@ -199,10 +199,10 @@ function rotateInfoFill() {
   rotateScreenLoaded = true;
   document.getElementById('rotate-info').innerHTML = compiledHtml;
 
-  // if (window.matchMedia("(orientation: portrait)").matches) {
-  //    eventSend("app_progress", "view", "screen_load", "experience_event", "SAC25_McD_rotate");
-  //   rotateScreenEventSent = true;
-  // }
+  if (window.matchMedia("(orientation: portrait)").matches) {
+    eventSend("app_progress", "view", "screen_load", "FHW25_rotate");
+    rotateScreenEventSent = true;
+  }
 }
 
 function desktopCoverFill() {
@@ -229,9 +229,13 @@ function readyPageFill() {
   mainContainer.innerHTML = compiledHtml;
   const buttonPlay = document.querySelector('.js-btn-play');
 
+  eventSend("app_progress", "view", "screen_load", "FHW25_instructions");
+
   if (buttonPlay) {
     buttonPlay.addEventListener('click', async function () {      
       console.log('ready-page-template Play');
+      eventSend("user_action", "click", "play_button", "FHW25_instructions");
+
       mainContainer.style.zIndex = '1';     
       mainContainer.style.display = 'none';
       window.unityGame.SendMessage('MainScript', 'OnAudioContextResumed', 'Audio context has been resumed');
@@ -330,7 +334,7 @@ function verifyAgeFill() {
   const formName = document.getElementById('js-form-name');
   const formNamefont = locale.ageVerify.formNameFont;
 
-  // eventSend("app_progress", "view", "screen_load", "experience_event", "SAC25_McD_age_gate");
+  eventSend("app_progress", "view", "screen_load", "FHW25_age_gate");
 
   if (formNamefont) {
     formName.classList.add(formNamefont);
@@ -344,7 +348,7 @@ function verifyAgeFill() {
     buttonPlay.addEventListener('click', async function () {
 
       showLoader();
-      // eventSend("user_action", "click", "McD_continue", "experience_event", "SAC25_McD_age_gate");      
+      eventSend("user_action", "click", "age_continue", "FHW25_age_gate");      
       console.log('verifyAgeFill button Next');
 
       if (btnTarget === 'next') {
@@ -490,7 +494,7 @@ function loadGameFill() {
   document.getElementById('main').innerHTML = compiledHtml;
   document.querySelector('.js-bg').classList.add('active');
 
-  //  eventSend("app_progress", "view", "screen_load", "experience_event", "SAC25_McD_loading");
+  eventSend("app_progress", "view", "screen_load", "FHW25_loading");
 
   updateZIndex();
 
@@ -518,7 +522,7 @@ async function main() {
       document.body.style.height = `${window.innerHeight}px`;
 
       if (rotateScreenLoaded && !rotateScreenEventSent) {
-        //  eventSend("app_progress", "view", "screen_load", "experience_event", "SAC25_McD_rotate");
+        eventSend("app_progress", "view", "screen_load", "FHW25_rotate");
         rotateScreenEventSent = true;
       }
 
