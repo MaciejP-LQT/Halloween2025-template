@@ -155,6 +155,7 @@ async function loadLocale() {
     const urlParams = new URLSearchParams(window.location.search);
     xtndExperienceId = urlParams.get('xtnd-experience-id') || 'hlw-25-fanta-fear-factory-runner';
     xtndLocale = urlParams.get('xtnd-locale') || 'en';
+    console.log("xtndExperienceId: "+xtndExperienceId);
     console.log("xtndLocale: "+xtndLocale);
     const response = await window.xtnd.translations.get({
       "xtndExperienceId": xtndExperienceId,
@@ -171,6 +172,7 @@ async function loadLocale() {
   } catch (error) {
     console.dir(error);
     console.error(error);
+    console.log("xtndExperienceId(2): "+xtndExperienceId);
     console.log("xtndLocale(2): "+xtndLocale);
     if (xtndLocale == null || xtndLocale !== 'en') {
       try {
