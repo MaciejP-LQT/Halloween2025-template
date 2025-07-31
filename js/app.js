@@ -150,11 +150,12 @@ window.addEventListener('resize', updateZIndex);
 
 async function loadLocale() {
   let xtndLocale = '';
-  let xtndExperienceId = '';
+  let xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
   try {
     const urlParams = new URLSearchParams(window.location.search);
     xtndExperienceId = urlParams.get('xtnd-experience-id') || 'hlw-25-fanta-fear-factory-runner';
     xtndLocale = urlParams.get('xtnd-locale') || 'en';
+    console.log("xtndLocale: "+xtndLocale);
     const response = await window.xtnd.translations.get({
       "xtndExperienceId": xtndExperienceId,
       "xtndContent": "publish",
@@ -170,8 +171,10 @@ async function loadLocale() {
   } catch (error) {
     console.dir(error);
     console.error(error);
+    console.log("xtndLocale(2): "+xtndLocale);
     if (xtndLocale == null || xtndLocale !== 'en') {
       try {
+        
         const fallbackResponse = await window.xtnd.translations.get({
           "xtndExperienceId": xtndExperienceId,
           "xtndContent": "publish",
