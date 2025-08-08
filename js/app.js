@@ -290,7 +290,7 @@ function readyPageFill() {
   mainContainer.classList.add('ready-page');
   mainContainer.innerHTML = compiledHtml;
   const buttonPlay = document.querySelector('.js-btn-play');
-  const buttonTest = document.querySelector('.test-btn-xhr');
+  //const buttonTest = document.querySelector('.test-btn-xhr');
 
   eventSend("app_progress", "view", "screen_load", "FHW25_instructions");
 
@@ -305,20 +305,20 @@ function readyPageFill() {
     });
   }
 
-  buttonTest.addEventListener('click', async function () {      
-      console.log('xhr-start en');
+  // buttonTest.addEventListener('click', async function () {      
+  //     console.log('xhr-start en');
 
-      const res = await window.xtnd.translations.get({
-        "xtndExperienceId": "hlw-25-fanta-fear-factory-runner",
-        "xtndContent": "publish",
-        "xtndLocale": "en"
-      });
+  //     const res = await window.xtnd.translations.get({
+  //       "xtndExperienceId": "hlw-25-fanta-fear-factory-runner",
+  //       "xtndContent": "publish",
+  //       "xtndLocale": "en"
+  //     });
 
-      let loc = transformLocaleData(res);
-      console.log('!!!retrieved en');
-      console.log(loc);
+  //     let loc = transformLocaleData(res);
+  //     console.log('!!!retrieved en');
+  //     console.log(loc);
       
-    });
+  // });
 
 }
 
