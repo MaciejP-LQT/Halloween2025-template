@@ -978,3 +978,14 @@ h3.small {
     }
 
 }
+
+
+.box-content {
+    position: relative;
+}
+
+.test-btn-xhr {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
