@@ -148,52 +148,108 @@ function updateZIndex() {
 
 window.addEventListener('resize', updateZIndex);
 
+
 async function loadLocale() {
-  let xtndLocale = '';
-  let xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    xtndExperienceId = urlParams.get('xtnd-experience-id') || 'hlw-25-fanta-fear-factory-runner';
-    xtndLocale = urlParams.get('xtnd-locale') || 'en';
-    console.log("xtndExperienceId: "+xtndExperienceId);
-    console.log("xtndLocale: "+xtndLocale);
-    const response = await window.xtnd.translations.get({
-      "xtndExperienceId": xtndExperienceId,
-      "xtndContent": "publish",
-      "xtndLocale": xtndLocale
-    });
-    locale = transformLocaleData(response);
-    loginFormType = locale.xtnd_nt_config.loginFormType;
-    // loginFormType = 'start';
-    ageLimit = locale.xtnd_nt_config.ageLimit;
-    showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
-    //btnLogin = locale.howToPlay.btnLogin;
-    //console.dir(locale);
-  } catch (error) {
-    console.dir(error);
-    console.error(error);
-    console.log("xtndExperienceId(2): "+xtndExperienceId);
-    console.log("xtndLocale(2): "+xtndLocale);
-    if (xtndLocale == null || xtndLocale !== 'en') {
-      try {
-        
-        const fallbackResponse = await window.xtnd.translations.get({
-          "xtndExperienceId": xtndExperienceId,
-          "xtndContent": "publish",
-          "xtndLocale": 'en'
-        });
-        locale = transformLocaleData(fallbackResponse);
-        loginFormType = locale.xtnd_nt_config.loginFormType;
-        // loginFormType = 'start';
-        //btnLogin = locale.xtnd_nt_config.btnLogin;
-      } catch (fallbackError) {
-        console.dir(fallbackError);
-        console.error(fallbackError);        
-      }
+  const xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
+  const xtndLocale = null; 
+  
+
+  const urlParams = new URLSearchParams(window.location.search);
+
+  xtndExperienceId = urlParams.get('xtnd-experience-id') || 'hlw-25-fanta-fear-factory-runner';
+  xtndLocale = urlParams.get('xtnd-locale');
+
+  
+  const localesToTry = [];
+
+  if (xtndLocale) {
+    localesToTry.push(xtndLocale); // np. 'pl-cy'
+  }
+  localesToTry.push('en'); 
+
+  // Używamy Set, aby usunąć ewentualne duplikaty, np. gdyby ktoś podał ?locale=en&region=cy
+  const uniqueLocales = [...new Set(localesToTry)];
+
+  // 3. Próbuj pobrać tłumaczenia w pętli, aż do sukcesu
+  for (const currentLocale of uniqueLocales) {
+    try {
+      console.log(`ttempt to retrieve translations for: ${currentLocale}`);
+      
+      const response = await window.xtnd.translations.get({
+        "xtndExperienceId": xtndExperienceId,
+        "xtndContent": "publish",
+        "xtndLocale": currentLocale
+      });
+      
+      locale = transformLocaleData(response);
+      console.log(`Translations retrieved for: ${currentLocale}`);
+      loginFormType = locale.xtnd_nt_config.loginFormType;
+      ageLimit = locale.xtnd_nt_config.ageLimit;
+      showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
+      
+      // Jeśli się udało, przerywamy funkcję i nie sprawdzamy kolejnych lokalizacji
+      return; 
+      
+    } catch (error) {
+      console.error(`Failed to retrieve translations for: "${currentLocale}". Attempting next fallback.`);
+      console.dir(error); 
     }
   }
-  console.log("loginFormType: "+loginFormType);
+
+  console.error("Failed to retrieve any translation versions. The application may not function properly.");
 }
+
+
+ 
+
+
+// async function loadLocale() {
+//   let xtndLocale = '';
+//   let xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
+//   try {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     xtndExperienceId = urlParams.get('xtnd-experience-id') || 'hlw-25-fanta-fear-factory-runner';
+//     xtndLocale = urlParams.get('xtnd-locale') || 'en';
+//     console.log("xtndExperienceId: "+xtndExperienceId);
+//     console.log("xtndLocale: "+xtndLocale);
+
+//     const response = await window.xtnd.translations.get({
+//       "xtndExperienceId": xtndExperienceId,
+//       "xtndContent": "publish",
+//       "xtndLocale": xtndLocale
+//     });
+//     locale = transformLocaleData(response);
+//     loginFormType = locale.xtnd_nt_config.loginFormType;
+//     // loginFormType = 'start';
+//     ageLimit = locale.xtnd_nt_config.ageLimit;
+//     showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
+//     //btnLogin = locale.howToPlay.btnLogin;
+//     //console.dir(locale);
+//   } catch (error) {
+//     console.dir(error);
+//     console.error(error);
+//     console.log("xtndExperienceId(2): "+xtndExperienceId);
+//     console.log("xtndLocale(2): "+xtndLocale);
+//     if (xtndLocale == null || xtndLocale !== 'en') {
+//       try {
+        
+//         const fallbackResponse = await window.xtnd.translations.get({
+//           "xtndExperienceId": xtndExperienceId,
+//           "xtndContent": "publish",
+//           "xtndLocale": 'en'
+//         });
+//         locale = transformLocaleData(fallbackResponse);
+//         loginFormType = locale.xtnd_nt_config.loginFormType;
+//         // loginFormType = 'start';
+//         //btnLogin = locale.xtnd_nt_config.btnLogin;
+//       } catch (fallbackError) {
+//         console.dir(fallbackError);
+//         console.error(fallbackError);        
+//       }
+//     }
+//   }
+//   console.log("loginFormType: "+loginFormType);
+// }
 
 
 
@@ -285,49 +341,49 @@ function loginIfNeeded() {
 }
 
 
-function howToPlayFill() {
-  const templateSource = document.getElementById('how-to-play-template').innerHTML;
-  const template = Handlebars.compile(templateSource);
-  const compiledHtml = template({ locale: locale });
-  document.getElementById('main').innerHTML = compiledHtml;
-  const buttonPlay = document.querySelector('.js-btn-play');
+// function howToPlayFill() {
+//   const templateSource = document.getElementById('how-to-play-template').innerHTML;
+//   const template = Handlebars.compile(templateSource);
+//   const compiledHtml = template({ locale: locale });
+//   document.getElementById('main').innerHTML = compiledHtml;
+//   const buttonPlay = document.querySelector('.js-btn-play');
 
-  // eventSend("app_progress", "view", "screen_load");
+//   // eventSend("app_progress", "view", "screen_load");
 
-  // loginFormType może być: start - logowanie na początku na HowToPlay, game - logowanie w grze, none - bez logowania
-  if (resUserStatus.status !== "success" && loginFormType === 'start') {
-    needLogin = true;
-    buttonPlay.childNodes[0].textContent = btnLogin; 
-    buttonPlay.querySelector('span').textContent = btnLogin;  
-    console.log('no logged !');  
-  }
+//   // loginFormType może być: start - logowanie na początku na HowToPlay, game - logowanie w grze, none - bez logowania
+//   if (resUserStatus.status !== "success" && loginFormType === 'start') {
+//     needLogin = true;
+//     buttonPlay.childNodes[0].textContent = btnLogin; 
+//     buttonPlay.querySelector('span').textContent = btnLogin;  
+//     console.log('no logged !');  
+//   }
 
   
-  if (buttonPlay) {
-    buttonPlay.addEventListener('click', async function () {
+//   if (buttonPlay) {
+//     buttonPlay.addEventListener('click', async function () {
 
-      if (needLogin) {  
-        // eventSend("user_action", "click", "login_button");       
-        resUserLogIn = await logUserIn();
+//       if (needLogin) {  
+//         // eventSend("user_action", "click", "login_button");       
+//         resUserLogIn = await logUserIn();
 
-        if (resUserLogIn.status === 'success') {
-          localStorage.setItem('_Hlw25_uuid', resUserLogIn.data.uuid);
-          needLogin = false;
-        }
-        return; 
-      }
+//         if (resUserLogIn.status === 'success') {
+//           localStorage.setItem('_Hlw25_uuid', resUserLogIn.data.uuid);
+//           needLogin = false;
+//         }
+//         return; 
+//       }
 
-      // eventSend("user_action", "click", "play_button");
-      document.getElementById("rotate-info").classList.add('active');
-      showLoader();
-      console.log('how-to-play button Play');
-      rotateInfoFill();
-      loadGameFill();
-      initializeUnity(config);
-      hideLoader();
-    });
-  }
-}
+//       // eventSend("user_action", "click", "play_button");
+//       document.getElementById("rotate-info").classList.add('active');
+//       showLoader();
+//       console.log('how-to-play button Play');
+//       rotateInfoFill();
+//       loadGameFill();
+//       initializeUnity(config);
+//       hideLoader();
+//     });
+//   }
+// }
 
 
 function verifyAgeFill() {
