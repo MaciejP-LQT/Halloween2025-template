@@ -150,8 +150,8 @@ window.addEventListener('resize', updateZIndex);
 
 
 async function loadLocale() {
-  const xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
-  const xtndLocale = null; 
+  let xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
+  let xtndLocale = null; 
   
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -160,7 +160,7 @@ async function loadLocale() {
   xtndLocale = urlParams.get('xtnd-locale');
 
   
-  const localesToTry = [];
+  let localesToTry = [];
 
   if (xtndLocale) {
     localesToTry.push(xtndLocale); // np. 'pl-cy'
