@@ -168,10 +168,10 @@ async function loadLocale() {
   }
   localesToTry.push('en'); 
 
-  // Używamy Set, aby usunąć ewentualne duplikaty, np. gdyby ktoś podał ?locale=en&region=cy
+ 
   const uniqueLocales = [...new Set(localesToTry)];
 
-  // 3. Próbuj pobrać tłumaczenia w pętli, aż do sukcesu
+
   for (const currentLocale of uniqueLocales) {
     try {
       console.log(`Attempt to retrieve translations for: ${currentLocale}`);
@@ -188,7 +188,7 @@ async function loadLocale() {
       ageLimit = locale.xtnd_nt_config.ageLimit;
       showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
       
-      // Jeśli się udało, przerywamy funkcję i nie sprawdzamy kolejnych lokalizacji
+   
       return; 
       
     } catch (error) {
