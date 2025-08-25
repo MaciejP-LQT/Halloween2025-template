@@ -48,6 +48,7 @@ let gYear = 2025;
 let ageLimit = 13;
 let showAgeLimitForm = true; 
 let showModal = false;
+let gameBrand = 'fanta'; 
 
 function generateYearArray(startYear, endYear) {
   const yearTab = [];
@@ -187,6 +188,7 @@ async function loadLocale() {
       loginFormType = locale.xtnd_nt_config.loginFormType;
       ageLimit = locale.xtnd_nt_config.ageLimit;
       showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
+      gameBrand = locale.xtnd_nt_config.brand;
       
    
       return; 
@@ -574,6 +576,17 @@ function loadGameFill() {
 
   eventSend("app_progress", "view", "screen_load", "FHW25_loading");
 
+  const loaderImg1 = document.getElementById('loader-img-1');
+  if (gameBrand === 'royal') {
+    loaderImg1.src = 'images/h-royal-can.png';  
+    loaderImg1.alt = 'Royal loader';
+  } else {  
+    loaderImg1.src = 'images/h-fanta-can.png';  
+    loaderImg1.alt = 'Fanta loader';  
+  }
+
+
+  
   updateZIndex();
 
   // const loaderContainer = document.querySelector('.loader-img-wrap');
