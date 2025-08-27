@@ -580,7 +580,11 @@ function loadGameFill() {
   if (gameBrand === 'royal') {
     loaderImg1.src = 'images/h-royal-can.png';  
     loaderImg1.alt = 'Royal loader';
-  } else {  
+  } else if (gameBrand === 'zero') {
+    loaderImg1.src = 'images/h-zero-can.png';
+    loaderImg1.alt = 'Coca-Cola Zero Sugar loader';
+  }
+  else {  
     loaderImg1.src = 'images/h-fanta-can.png';  
     loaderImg1.alt = 'Fanta loader';  
   }
