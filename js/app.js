@@ -303,7 +303,8 @@ function readyPageFill() {
 
       mainContainer.style.zIndex = '1';     
       mainContainer.style.display = 'none';
-      window.unityGame.SendMessage('MainScript', 'XtndAudioContextResumed', 'Audio context has been resumed');
+      //window.unityGame.SendMessage('MainScript', 'XtndAudioContextResumed', 'Audio context has been resumed');
+      window.unityGame.SendMessage('MainScript', 'OnGameAwake', gameBrand);
     });
   }
 
