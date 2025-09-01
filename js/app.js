@@ -308,21 +308,6 @@ function readyPageFill() {
     });
   }
 
-  // buttonTest.addEventListener('click', async function () {      
-  //     console.log('xhr-start en');
-
-  //     const res = await window.xtnd.translations.get({
-  //       "xtndExperienceId": "hlw-25-fanta-fear-factory-runner",
-  //       "xtndContent": "publish",
-  //       "xtndLocale": "en"
-  //     });
-
-  //     let loc = transformLocaleData(res);
-  //     console.log('!!!retrieved en');
-  //     console.log(loc);
-      
-  // });
-
 }
 
 
