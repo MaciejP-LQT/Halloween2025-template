@@ -23,6 +23,7 @@
   <link rel="preload" as="image" href="images/sound-on.png">
 
   <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
@@ -73,6 +74,8 @@
     var randomNum = Math.floor(Math.random() * 10000); // Generuje losową liczbę
     loadScript("https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js").then(function () {
       return loadScript("https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js");
+    }).then(function () {
+      return loadScript("https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js");
     }).then(function () {
       return loadScript("https://xtnd.coca-cola.com/v1/xtnd-sdk.js?applyDebug=false&applyStubs=false");
     }).then(function () {

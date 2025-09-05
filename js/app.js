@@ -49,6 +49,9 @@ let ageLimit = 13;
 let showAgeLimitForm = true; 
 let showModal = false;
 let gameBrand = 'fanta'; 
+const UUId = uuidv4();
+let correctLocale = 'en';
+const eventUrl = 'https://api-games-v2.smvg.pl/event';
 
 function generateYearArray(startYear, endYear) {
   const yearTab = [];
@@ -149,7 +152,7 @@ function updateZIndex() {
 
 window.addEventListener('resize', updateZIndex);
 
-
+// #region loadLocale
 async function loadLocale() {
   let xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
   let xtndLocale = null; 
@@ -189,6 +192,7 @@ async function loadLocale() {
       ageLimit = locale.xtnd_nt_config.ageLimit;
       showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
       gameBrand = locale.xtnd_nt_config.brand;
+      correctLocale = currentLocale;
       
    
       return; 
@@ -201,58 +205,56 @@ async function loadLocale() {
 
   console.error("Failed to retrieve any translation versions. The application may not function properly.");
 }
+// #endregion
 
 
- 
+// #region EventAdd
+async function EventAdd(name, details) {
 
+  let json = `{"configuration":"${locale.gameId}.${regionFromUrl}","user":"${profile.uuid}","name":"${name}","details":{`;
+  let i = 0;
+  for (const [key, value] of Object.entries(details)) {
+    if (i === 0) {
+      json = json + `"${key}":"${value}"`;
+    } else {
+      json = json + `,"${key}":"${value}"`;
+    }
+    i++;
+  }
+  json = json + `},"gameUID":"","language":"${language}","version":"${locale.version}"}`;
 
-// async function loadLocale() {
-//   let xtndLocale = '';
-//   let xtndExperienceId = 'hlw-25-fanta-fear-factory-runner';
-//   try {
-//     const urlParams = new URLSearchParams(window.location.search);
-//     xtndExperienceId = urlParams.get('xtnd-experience-id') || 'hlw-25-fanta-fear-factory-runner';
-//     xtndLocale = urlParams.get('xtnd-locale') || 'en';
-//     console.log("xtndExperienceId: "+xtndExperienceId);
-//     console.log("xtndLocale: "+xtndLocale);
+  if (consoleMode){
+    consoleLog.value = getCurrentDate() + ' EventAdd\n';
+    consoleLog.value += `json: ${json}`;
+  }
+  try {
+    const response = await fetch(eventUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: json
+    });
+    if (response.ok) {
+      let result = await response.json();
+      if (consoleMode){
+        consoleLog.value += `result:${JSON.stringify(result)}\n`;
+      }
+    } else {
+      if (consoleMode){
+        consoleLog.value += `www.isNetworkError:${response.ok}\n`;
+        consoleLog.value += `www.isHttpError:${response.status}\n`;
+        consoleLog.value += `www.error:${response.statusText}\n`;
+      }
+    }
+  } catch (error) {
+    if (consoleMode){
+      consoleLog.value += `error:${error.message}`;
+    }
+  }
+}
 
-//     const response = await window.xtnd.translations.get({
-//       "xtndExperienceId": xtndExperienceId,
-//       "xtndContent": "publish",
-//       "xtndLocale": xtndLocale
-//     });
-//     locale = transformLocaleData(response);
-//     loginFormType = locale.xtnd_nt_config.loginFormType;
-//     // loginFormType = 'start';
-//     ageLimit = locale.xtnd_nt_config.ageLimit;
-//     showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
-//     //btnLogin = locale.howToPlay.btnLogin;
-//     //console.dir(locale);
-//   } catch (error) {
-//     console.dir(error);
-//     console.error(error);
-//     console.log("xtndExperienceId(2): "+xtndExperienceId);
-//     console.log("xtndLocale(2): "+xtndLocale);
-//     if (xtndLocale == null || xtndLocale !== 'en') {
-//       try {
-        
-//         const fallbackResponse = await window.xtnd.translations.get({
-//           "xtndExperienceId": xtndExperienceId,
-//           "xtndContent": "publish",
-//           "xtndLocale": 'en'
-//         });
-//         locale = transformLocaleData(fallbackResponse);
-//         loginFormType = locale.xtnd_nt_config.loginFormType;
-//         // loginFormType = 'start';
-//         //btnLogin = locale.xtnd_nt_config.btnLogin;
-//       } catch (fallbackError) {
-//         console.dir(fallbackError);
-//         console.error(fallbackError);        
-//       }
-//     }
-//   }
-//   console.log("loginFormType: "+loginFormType);
-// }
+// #endregion
 
 
 
@@ -300,6 +302,12 @@ function readyPageFill() {
     buttonPlay.addEventListener('click', async function () {      
       console.log('ready-page-template Play');
       eventSend("user_action", "click", "play_button", "FHW25_instructions");
+
+      EventAdd('GameStart', {
+          sessionUid: UUId,
+          gameBrand: gameBrand,
+          locale: correctLocale
+      });
 
       mainContainer.style.zIndex = '1';     
       mainContainer.style.display = 'none';
@@ -595,7 +603,7 @@ function isMobileDevice() {
 
 
 
-
+// #region Main
 // ************ main ************ //
 async function main() {
   const setHeight = () => {
@@ -615,6 +623,7 @@ async function main() {
   window.addEventListener('resize', setHeight);
   setHeight();
 
+
    
   showLoader();
   await loadLocale();
@@ -625,6 +634,13 @@ async function main() {
 
   desktopCoverFill();
 
+  EventAdd('AppStart', {
+      sessionUid: UUId,
+      version: "xtnd",
+      userIdStatus: resUserStatus.status,
+      userId: resUserStatus.status === 'success' ? resUserStatus.data.uuid : 'no-logged',
+      storedUserId: storeUid ? storeUid : 'no-store'
+  });
 
   if (resUserStatus.status === 'success') { 
 
@@ -646,7 +662,7 @@ async function main() {
   hideLoader();
 
 }
-
+// #endregion
 
 
 function initializeUnity(config) {
