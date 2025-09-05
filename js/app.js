@@ -52,6 +52,8 @@ let gameBrand = 'fanta';
 const UUId = uuidv4();
 let correctLocale = 'en';
 const eventUrl = 'https://api-games-v2.smvg.pl/event';
+let gameId = 'hlw-25'
+let version = 'v0.0.1'
 
 function generateYearArray(startYear, endYear) {
   const yearTab = [];
@@ -193,6 +195,8 @@ async function loadLocale() {
       showAgeLimitForm = locale.xtnd_nt_config.showAgeLimitForm;
       gameBrand = locale.xtnd_nt_config.brand;
       correctLocale = currentLocale;
+      gameId = locale.xtnd_nt_config.gameId;
+      version = locale.xtnd_nt_config.version;
       
    
       return; 
@@ -211,7 +215,19 @@ async function loadLocale() {
 // #region EventAdd
 async function EventAdd(name, details) {
 
-  let json = `{"configuration":"${locale.gameId}.${regionFromUrl}","user":"${profile.uuid}","name":"${name}","details":{`;
+  let language;
+  let region;
+
+  if (correctLocale.includes('-')) {
+    const parts = correctLocale.split('-');
+    language = parts[0].toUpperCase();
+    region = parts[1].toUpperCase();
+  } else {
+    language = correctLocale;
+    region = correctLocale;
+  }
+
+  let json = `{"configuration":"${gameId}.${region}","user":"${UUId}","name":"${name}","details":{`;
   let i = 0;
   for (const [key, value] of Object.entries(details)) {
     if (i === 0) {
@@ -221,12 +237,9 @@ async function EventAdd(name, details) {
     }
     i++;
   }
-  json = json + `},"gameUID":"","language":"${language}","version":"${locale.version}"}`;
+  json = json + `},"gameUID":"","language":"${language}","version":"${version}"}`;
 
-  if (consoleMode){
-    consoleLog.value = getCurrentDate() + ' EventAdd\n';
-    consoleLog.value += `json: ${json}`;
-  }
+
   try {
     const response = await fetch(eventUrl, {
       method: 'PUT',
@@ -237,20 +250,18 @@ async function EventAdd(name, details) {
     });
     if (response.ok) {
       let result = await response.json();
-      if (consoleMode){
-        consoleLog.value += `result:${JSON.stringify(result)}\n`;
-      }
+      console.log('EventAdd result:');
+      console.log(result);
+      
     } else {
-      if (consoleMode){
-        consoleLog.value += `www.isNetworkError:${response.ok}\n`;
-        consoleLog.value += `www.isHttpError:${response.status}\n`;
-        consoleLog.value += `www.error:${response.statusText}\n`;
-      }
+
+        console.log(`www.isNetworkError:${response.ok}\n`);
+        console.log(`www.isHttpError:${response.status}\n`);
+        console.log(`www.error:${response.statusText}\n`);
+
     }
   } catch (error) {
-    if (consoleMode){
-      consoleLog.value += `error:${error.message}`;
-    }
+      console.log(`error:${error.message}`);
   }
 }
 
